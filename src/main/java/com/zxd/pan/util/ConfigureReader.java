@@ -2,6 +2,8 @@ package com.zxd.pan.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,20 +27,26 @@ public class ConfigureReader {
 
 	// 初始化配置文件并将其装载
 	private ConfigureReader(HttpServletRequest request) {
-		String realPath = request.getServletContext().getRealPath("etc/");
-		File conf = new File(realPath + "configure.properties");
-		if (conf.exists()) {
-			try {
-				FileInputStream fis = new FileInputStream(conf);
-				confp = new Properties();
-				confp.load(fis);
-			} catch (Exception e) {
-				// TODO 自动生成的 catch 块
-				System.out.println("KohgylwIFT:[Configure]cannot read file:etc/configure.properties");
+//		String realPath = request.getServletContext().getRealPath("etc/");
+//		File conf = new File(realPath + "configure.properties");
+		InputStream is = null;
+		
+		try {
+			is = Thread.currentThread().getContextClassLoader().getResourceAsStream("configure.properties");
+//			FileInputStream fis = new FileInputStream(conf);
+			if (is == null) {
+				throw new FileNotFoundException("config file is not found");	
 			}
-		} else {
-			System.out.println("KohgylwIFT:[Configure]cannot read file:etc/configure.properties不存在。");
+			
+			confp = new Properties();
+			confp.load(is);
+			
+			System.out.println("config file load success!");
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			System.out.println("KohgylwIFT:[Configure]cannot read file:etc/configure.properties");
 		}
+		
 	}
 
 	/**

@@ -105,7 +105,7 @@ function dologin() {
 				if (result == "permitlogin") {
 					$("#accountidbox").removeClass("has-error");
 					$("#accountpwdbox").removeClass("has-error");
-					window.location.href = "home.jsp";
+					window.location.reload();
 				} else if (result == "accountnotfound") {
 					$("#accountidbox").addClass("has-error");
 					$("#accountpwdbox").removeClass("has-error");
@@ -136,7 +136,15 @@ function dologin() {
 // 注销操作
 function dologout() {
 	$('#logoutModal').modal('hide');
-	window.location.href = "homeController/doLogout.do";
+//	window.location.href = "homeController/doLogout.do";
+	$.ajax({
+		type : "POST",
+		dataType : "text",
+		url : "homeController/doLogout.do",
+		success : function(result) {
+			window.location.reload();
+		}
+	});
 }
 
 // 显示当前文件夹的父级路径
@@ -1078,3 +1086,8 @@ function deleteAllChecked() {
 		}
 	});
 }
+
+
+$.ajax({
+	url: 'homeController/index.html',
+});

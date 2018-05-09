@@ -48,6 +48,18 @@ public class HomeController {
 	@Resource
 	private ShowPictureService sps;
 	
+	
+	//	用户欺骗,配置路由
+	@RequestMapping("/index.html")
+	public String getIndex() {
+		
+		
+		return "home";
+		
+	}
+	
+	
+	
 	//获取服务器操作系统
 	@RequestMapping("/getServerOS.ajax")
 	public @ResponseBody String getServerOS(){
@@ -69,9 +81,10 @@ public class HomeController {
 	
 	//执行注销操作
 	@RequestMapping("/doLogout.do")
+	@ResponseBody
 	public String doLogout(HttpSession session) {
 		as.logout(session);
-		return "redirect:/home.jsp";
+		return "success";
 	}
 	
 	//新建文件夹
