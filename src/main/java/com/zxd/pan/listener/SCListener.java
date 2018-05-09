@@ -26,6 +26,15 @@ public class SCListener implements ServletContextListener {
 		FileBlockUtil fbu = context.getBean(FileBlockUtil.class);
 		fbu.checkFileBlocks(sce.getServletContext());
 		String tfPath = sce.getServletContext().getRealPath("/temporaryfiles");
+		
+		String realFilePath = sce.getServletContext().getRealPath("/fileblocks");
+		File realFileBlocks= new File(realFilePath);
+		if(!realFileBlocks.exists()) {
+			realFileBlocks.mkdir();
+			System.out.println("fileblocks create success");
+		}
+		
+		
 		File f = new File(tfPath);
 		if(!f.exists()) {
 			f.mkdir();
